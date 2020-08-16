@@ -22,10 +22,15 @@ route.get('/', (req, res) => {
 route.post('/', (req, res) => {
     //Add a new Product
 
+    if (isNaN(req.body.price)) {
+        return res.status(403).send({
+            error: "Price is not a valid number"
+        })
+    }
     Product.create({
             name: req.body.name,
-            price: req.body.price,
-            manufacturer: request.body.manufacturer
+            price: parseFloat(req.body.price),
+            manufacturer: req.body.manufacturer
         })
         .then((product) => {
             res.status(201).send(product)
